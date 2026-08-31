@@ -1,0 +1,35 @@
+server {
+  listen 80;
+  server_name __APP_HOST__;
+  return 308 https://$host$request_uri;
+}
+
+server {
+  listen 443 ssl http2;
+  server_name __APP_HOST__;
+
+  # Configurar rutas de certificado exclusivamente en el VPS.
+  ssl_certificate __TLS_CERTIFICATE_PATH__;
+  ssl_certificate_key __TLS_PRIVATE_KEY_PATH__;
+
+  root __RELEASE_ROOT__;
+  index index.html;
+  server_tokens off;
+
+  add_header Cache-Control "no-store" always;
+  add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://arfwuctpwnnuhdgjtxaa.supabase.co; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" always;
+  add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+  add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+  add_header X-Content-Type-Options "nosniff" always;
+  add_header X-Frame-Options "DENY" always;
+  add_header X-Robots-Tag "noindex, nofollow" always;
+
+  location /assets/ {
+    try_files $uri =404;
+  }
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}

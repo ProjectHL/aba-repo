@@ -1,0 +1,18 @@
+# Dependencias, cachés y salidas generadas
+**/node_modules/
+**/.pnpm-store/
+**/.pnpm-home/
+**/.corepack/
+**/.corepack-cache/
+**/.npm-cache/
+**/.git/
+**/verification/
+**/dist/
+deployment/vps/releases/
+
+# Configuración local y secretos
+**/.env
+**/.env.local
+**/.env.*.local
+!**/.env.example
+!**/.env.staging.example
